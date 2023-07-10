@@ -23,9 +23,23 @@ body {
   background-color: #fff;
 }
 
-/*.bg-dark {
-  background-color: #12002b;
-}*/
+.edit-mode {
+  background-color: #c3cfd9;
+}
+
+.edit-mode-wrapper-button {
+  background-color: #6458f5;
+  border-radius: 10px;
+}
+
+.account-content-wrapper.cta .transaction-button.edit-mode-button {
+  /* Add your custom styles for the button in edit mode */
+  background-color: #6458f5;
+  color: white;
+  margin-top: inherit;
+  border-color: inherit;
+  border-radius: 10px;
+}
 
 .sr-only {
   border: 0 !important;

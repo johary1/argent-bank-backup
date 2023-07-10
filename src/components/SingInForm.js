@@ -1,11 +1,21 @@
 import React from "react";
+import { useNavigate } from "react-router-dom";
 
 const SignInForm = () => {
+  const navigate = useNavigate();
+
+  const handleSignIn = (event) => {
+    event.preventDefault();
+
+    // todo If login is successful
+    navigate("/profile");
+  };
+
   return (
     <section className="sign-in-content">
       <i className="fa fa-user-circle sign-in-icon"></i>
       <h1>Sign In</h1>
-      <form>
+      <form onSubmit={handleSignIn}>
         <div className="input-wrapper">
           <label htmlFor="username">Username</label>
           <input type="text" id="username" />
@@ -18,9 +28,9 @@ const SignInForm = () => {
           <input type="checkbox" id="remember-me" />
           <label htmlFor="remember-me">Remember me</label>
         </div>
-        <a href="./user.html" className="sign-in-button">
+        <button type="submit" className="sign-in-button">
           Sign In
-        </a>
+        </button>
       </form>
     </section>
   );

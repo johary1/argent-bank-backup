@@ -1,6 +1,6 @@
 import React from "react";
 
-const Account = ({ title, amount, amountDescription }) => {
+const Account = ({ title, amount, amountDescription, isEditMode }) => {
   return (
     <section className="account">
       <div className="account-content-wrapper">
@@ -8,8 +8,18 @@ const Account = ({ title, amount, amountDescription }) => {
         <p className="account-amount">{amount}</p>
         <p className="account-amount-description">{amountDescription}</p>
       </div>
-      <div className="account-content-wrapper cta">
-        <button className="transaction-button">View transactions</button>
+      <div
+        className={`account-content-wrapper cta ${
+          isEditMode ? " edit-mode-wrapper-button" : ""
+        }`}
+      >
+        <button
+          className={`transaction-button ${
+            isEditMode ? " edit-mode-button" : ""
+          }`}
+        >
+          View transactions
+        </button>
       </div>
     </section>
   );
