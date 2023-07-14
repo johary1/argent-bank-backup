@@ -1,14 +1,21 @@
 import React, { useState } from "react";
+import { useSelector } from "react-redux";
+import { Navigate } from "react-router-dom";
 import MainNav from "../components/MainNav";
 import Header from "../components/Header";
 import Account from "../components/Account";
 
-const ConnectedUser = () => {
+const ProfilePage = () => {
   const [isEditMode, setIsEditMode] = useState(false);
+  const isAuthenticated = useSelector((state) => state.auth.isAuthenticated);
 
   const handleEditClick = () => {
     setIsEditMode(true);
   };
+
+  if (!isAuthenticated) {
+    return <Navigate to="/login" />;
+  }
 
   return (
     <main className={`main ${isEditMode ? "edit-mode" : ""}`}>
@@ -25,16 +32,16 @@ const ConnectedUser = () => {
         title="Argent Bank Savings (x6712)"
         amount="$10,928.42"
         amountDescription="Available Balance"
-        isEditMode={isEditMode} // Pass isEditMode to the Account component
+        isEditMode={isEditMode}
       />
       <Account
         title="Argent Bank Credit Card (x8349)"
         amount="$184.30"
         amountDescription="Current Balance"
-        isEditMode={isEditMode} // Pass isEditMode to the Account component
+        isEditMode={isEditMode}
       />
     </main>
   );
 };
 
-export default ConnectedUser;
+export default ProfilePage;

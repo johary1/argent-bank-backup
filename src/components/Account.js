@@ -1,4 +1,5 @@
 import React from "react";
+import { NavLink } from "react-router-dom";
 
 const Account = ({ title, amount, amountDescription, isEditMode }) => {
   return (
@@ -13,13 +14,14 @@ const Account = ({ title, amount, amountDescription, isEditMode }) => {
           isEditMode ? " edit-mode-wrapper-button" : ""
         }`}
       >
-        <button
+        <NavLink
+          to="/transaction"
           className={`transaction-button ${
             isEditMode ? " edit-mode-button" : ""
           }`}
         >
           View transactions
-        </button>
+        </NavLink>
       </div>
     </section>
   );
