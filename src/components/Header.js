@@ -1,80 +1,27 @@
-import React, { useState } from "react";
-// eslint-disable-next-line
-import { useSelector } from "react-redux";
-import "../styles/components/header.css";
+import React from "react";
+import { Link } from "react-router-dom";
+import argentBankLogo from "../img/argentBankLogo.png";
+import LogOut from "./LogOut";
+import LogIn from "./LogIn";
 
-const Header = ({ onEditClick, isEditMode }) => {
-  //const [isEditMode, setIsEditMode] = useState(false);
-  //const user = useSelector((state) => state.auth.user);
-  const [firstName, setFirstName] = useState("Tony");
-  const [lastName, setLastName] = useState("Jarvis");
-  // eslint-disable-next-line
-  const handleEditClick = () => {
-    //setIsEditMode(true);
-  };
-
-  const handleSaveClick = () => {
-    // Perform any necessary save operations
-    //setIsEditMode(false);
-  };
-
-  const handleCancelClick = () => {
-    // Optionally revert any changes made in the form
-    console.log("cancel");
-  };
-
-  const handleFirstNameChange = (e) => {
-    // Handle first name change
-    setFirstName(e.target.value);
-  };
-
-  const handleLastNameChange = (e) => {
-    // Handle last name change
-    setLastName(e.target.value);
-  };
-
+const Header = () => {
   return (
-    <div className="header">
-      {isEditMode ? (
-        <form className="form-container" onSubmit={handleSaveClick}>
-          <h1>Welcome back</h1>
-          <div className="form-row">
-            <input
-              type="text"
-              placeholder="First Name"
-              //value={user.firstName}
-              value={firstName}
-              onChange={handleFirstNameChange}
-            />
-            <input
-              type="text"
-              placeholder="Last Name"
-              //value={user.lastName}
-              value={lastName}
-              onChange={handleLastNameChange}
-            />
-          </div>
-          <div className="form-actions">
-            <button type="submit">Save</button>
-            <button type="button" onClick={handleCancelClick}>
-              Cancel
-            </button>
-          </div>
-        </form>
-      ) : (
+    <header>
+      <nav className="main-nav">
+        <Link className="main-nav-logo" to="/">
+          <img
+            className="main-nav-logo-image"
+            src={argentBankLogo}
+            alt="Argent Bank Logo"
+          />
+          <h1 className="sr-only">Argent Bank</h1>
+        </Link>
         <div>
-          <h1>
-            Welcome back
-            <br />
-            {/* {user.firstName} {user.lastName}! */}
-            {firstName} {lastName} !
-          </h1>
-          <button className="edit-button" onClick={onEditClick}>
-            Edit Name
-          </button>
+          <LogIn />
+          <LogOut />
         </div>
-      )}
-    </div>
+      </nav>
+    </header>
   );
 };
 
