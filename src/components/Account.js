@@ -15,7 +15,6 @@ const Account = ({ title, amount, amountDescription, isEditMode }) => {
         }`}
       >
         <NavLink
-          to="/transaction"
           className={`transaction-button ${
             isEditMode ? " edit-mode-button" : ""
           }`}

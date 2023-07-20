@@ -1,4 +1,5 @@
 import React, { useState } from "react";
+// eslint-disable-next-line
 import { useSelector } from "react-redux";
 import "../styles/components/header.css";
 
@@ -7,7 +8,7 @@ const Header = ({ onEditClick, isEditMode }) => {
   //const user = useSelector((state) => state.auth.user);
   const [firstName, setFirstName] = useState("Tony");
   const [lastName, setLastName] = useState("Jarvis");
-
+  // eslint-disable-next-line
   const handleEditClick = () => {
     //setIsEditMode(true);
   };
