@@ -1,15 +1,15 @@
 import React, { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import { Button, Alert } from "react-bootstrap";
-import { userLogin } from "../../services/userApi";
+import { userLogin } from "../services/userApi";
 import { useSelector, useDispatch } from "react-redux";
 import {
   logingPending,
   logingSuccess,
   logingError,
   logingRemember,
-} from "../../features/LoginSlice";
-import authAPI from "../../services/authApi"; // Import the authAPI module
+} from "../features/LoginSlice";
+import authAPI from "../services/authApi"; // Import the authAPI module
 
 /**
  * Component - SingIn
@@ -27,7 +27,7 @@ function SingIn() {
 
   useEffect(() => {
     if (authAPI.isAuthenticated()) {
-      navigate("/profilePage/Profile");
+      navigate("/profile");
     }
   }, [navigate]);
 
@@ -53,7 +53,7 @@ function SingIn() {
       }
 
       dispatch(logingSuccess());
-      navigate("/profilePage/Profile");
+      navigate("/profile");
     } catch (error) {
       console.log(error);
       dispatch(logingError(error.response.data.message));

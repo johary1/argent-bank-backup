@@ -21,12 +21,12 @@ const LogIn = () => {
   return (
     <>
       {isAuth ? (
-        <Link className="main-nav-link" to="/profilePage/Profile">
+        <Link className="main-nav-link" to="/profile">
           <i className="fa fa-user-circle"></i>
           {firstName}
         </Link>
       ) : (
-        <Link className="main-nav-link" to="/loginPage/signIn">
+        <Link className="main-nav-link" to="/login">
           <i className="fa fa-user-circle"></i>
           Sign In
         </Link>

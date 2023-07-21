@@ -1,13 +1,13 @@
 import React from "react";
-import { userDatas } from "../../services/userApi";
+import { userDatas } from "../services/userApi";
 import { useDispatch, useSelector } from "react-redux";
 import {
   profileFirstName,
   profileLastName,
   profileError,
-} from "../../features/ProfileSlice";
-import UserHeader from "../../components/UserHeader";
-import ProfileAccounts from "../../components/ProfileAccounts";
+} from "../features/ProfileSlice";
+import UserHeader from "../components/UserHeader";
+import ProfileAccounts from "../components/ProfileAccounts";
 import axios from "axios";
 const token = localStorage.getItem("token");
 if (token) {
