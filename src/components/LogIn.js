@@ -2,7 +2,7 @@ import React, { useEffect } from "react";
 import { Link } from "react-router-dom";
 import { useSelector, useDispatch } from "react-redux";
 import { profileFirstName } from "../features/ProfileSlice";
-import setAuthStatus from "../features/LoginSlice"; // Import the updated loginSlice actions.
+import { setAuthStatus } from "../features/LoginSlice"; // Import the updated loginSlice actions.
 
 const LogIn = () => {
   const dispatch = useDispatch();
