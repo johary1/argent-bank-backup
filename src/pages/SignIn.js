@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import { Button, Alert } from "react-bootstrap";
-import { userLogin } from "../services/userApi";
+import { login as userLogin } from "../services/userAuthApi";
 import { useSelector, useDispatch } from "react-redux";
 import {
   logingPending,
@@ -9,54 +9,64 @@ import {
   logingError,
   logingRemember,
 } from "../features/LoginSlice";
-import authAPI from "../services/authApi"; // Import the authAPI module
 
 /**
  * Component - SingIn
  * @returns {React.ReactElement} JSX.Element - SingIn component
  */
-
 function SingIn() {
-  const { isLoading, error, isRemember } = useSelector((state) => state.login);
+  const { isLoading, error, isRemember, isAuth } = useSelector(
+    (state) => state.login
+  );
   const dispatch = useDispatch();
-  let navigate = useNavigate();
+  const navigate = useNavigate();
   const [credientials, setCredientials] = useState({
     email: "",
     password: "",
   });
 
   useEffect(() => {
-    if (authAPI.isAuthenticated()) {
-      navigate("/profile");
+    const token = localStorage.getItem("authToken");
+    if (token) {
+      dispatch(logingSuccess());
+      if (isAuth) {
+        navigate("/profile");
+      }
     }
-  }, [navigate]);
+  }, [dispatch, isAuth, navigate]);
 
-  function handelChange({ currentTarget }) {
+  function handleChange({ currentTarget }) {
     const { value, name } = currentTarget;
-    setCredientials({
-      ...credientials,
+    setCredientials((prevCredentials) => ({
+      ...prevCredentials,
       [name]: value,
-    });
+    }));
   }
 
-  async function handelSubmit(e) {
+  async function handleSubmit(e) {
     e.preventDefault();
 
     dispatch(logingPending());
     try {
       const isAuth = await userLogin(credientials);
+      console.log("isAuth:", isAuth);
 
-      if (isRemember) {
-        localStorage.setItem("authToken", isAuth.body.token);
-      } else {
-        localStorage.removeItem("authToken");
+      if (isAuth) {
+        dispatch(logingSuccess());
+        navigate("/profile");
       }
-
-      dispatch(logingSuccess());
-      navigate("/profile");
     } catch (error) {
-      console.log(error);
-      dispatch(logingError(error.response.data.message));
+      if (
+        error.response &&
+        error.response.data &&
+        error.response.data.message
+      ) {
+        dispatch(logingError(error.response.data.message));
+      } else {
+        // If the error doesn't have a response or data property, handle it differently
+        console.log("Unexpected error:", error);
+        dispatch(logingError("invalid or empty value with login or password"));
+      }
     }
   }
 
@@ -67,14 +77,14 @@ function SingIn() {
           <i className="fa fa-user-circle sign-in-icon"></i>
           <h1>Sign In</h1>
           {error && <Alert variant="danger">{error}</Alert>}
-          <form onSubmit={handelSubmit}>
+          <form onSubmit={handleSubmit}>
             <div className="input-wrapper">
               <label htmlFor="username">Username</label>
               <input
                 type="text"
                 id="username"
                 name="email"
-                onChange={handelChange}
+                onChange={handleChange}
               />
             </div>
             <div className="input-wrapper">
@@ -83,7 +93,7 @@ function SingIn() {
                 type="password"
                 id="password"
                 name="password"
-                onChange={handelChange}
+                onChange={handleChange}
               />
             </div>
             <div className="input-remember">

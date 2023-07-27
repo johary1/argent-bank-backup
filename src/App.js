@@ -1,4 +1,3 @@
-//@ts-check
 import React from "react";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 import store from "./store";
@@ -24,7 +23,7 @@ const App = () => {
           <Routes>
             <Route path="/" element={<HomePage />} />
             <Route path="/login" element={<SignIn />} />
-            <Route path="/profile" element={<PrivateRoute />}>
+            <Route exact path="/profile" element={<PrivateRoute />}>
               <Route path="/profile" element={<Profile />} />
             </Route>
             <Route path="*" element={<Error />} />

@@ -86,6 +86,10 @@ body {
   padding-right: 0.5rem;
 }
 
+.auth-link {
+  display: inline-flex;
+}
+
 .hero {
   background-image: url("./img/bank-tree.jpeg");
   background-position: 0 -50px;

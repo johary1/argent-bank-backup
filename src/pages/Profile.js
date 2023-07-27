@@ -1,47 +1,55 @@
-import React from "react";
-import { userDatas } from "../services/userApi";
+import React, { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
+import { useNavigate } from "react-router-dom";
+import { userDatas, getTokenFromStorage } from "../services/userAuthApi";
 import {
   profileFirstName,
   profileLastName,
   profileError,
 } from "../features/ProfileSlice";
-import UserHeader from "../components/UserHeader";
-import ProfileAccounts from "../components/ProfileAccounts";
-import axios from "axios";
-const token = localStorage.getItem("token");
-if (token) {
-  axios.defaults.headers.common["Authorization"] = `Bearer ${token}`;
-}
 
-/**
- * Component - User ptofile
- * @returns {React.ReactElement} JSX.Element - User component
- */
+import UserForm from "../components/UserForm";
+import ProfileAccounts from "../components/ProfileAccounts";
+
 const Profile = () => {
   const dispatch = useDispatch();
-  const { isRemember } = useSelector((state) => state.login);
+  const { isAuth } = useSelector((state) => state.login);
+  const navigate = useNavigate();
 
-  userDatas()
-    .then((data) => {
-      dispatch(profileFirstName(data.body.firstName));
-      dispatch(profileLastName(data.body.lastName));
-
-      if (isRemember) {
-        localStorage.setItem("firstName", data.body.firstName);
-        localStorage.setItem("lastName", data.body.lastName);
-      } else {
-        localStorage.removeItem("firstName");
-        localStorage.removeItem("lastName");
+  useEffect(() => {
+    const fetchData = async () => {
+      try {
+        if (isAuth) {
+          const data = await userDatas();
+          console.log(data);
+          dispatch(profileFirstName(data.body.firstName));
+          dispatch(profileLastName(data.body.lastName));
+        }
+      } catch (error) {
+        // Handle error case here
+        if (error.response) {
+          dispatch(profileError(error.response.data.message));
+        } else {
+          dispatch(profileError("Failed to fetch profile data."));
+        }
       }
-    })
-    .catch((error) => dispatch(profileError(error.response.data.message)));
+    };
+
+    fetchData();
+  }, [dispatch, isAuth]);
+
+  //Handle the case when the user is not authenticated
+  if (!isAuth) {
+    navigate("/login"); // Redirect to login page or show a message
+    return null;
+  }
 
   return (
     <main className="main bg-dark">
-      <UserHeader />
+      <UserForm />
       <ProfileAccounts />
     </main>
   );
 };
+
 export default Profile;
