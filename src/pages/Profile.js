@@ -1,7 +1,7 @@
 import React, { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
-import { userDatas, getTokenFromStorage } from "../services/userAuthApi";
+import { userDatas } from "../services/userAuthApi";
 import {
   profileFirstName,
   profileLastName,
@@ -10,6 +10,7 @@ import {
 
 import UserForm from "../components/UserForm";
 import ProfileAccounts from "../components/ProfileAccounts";
+import { logingSuccess } from "../features/LoginSlice";
 
 const Profile = () => {
   const dispatch = useDispatch();
@@ -21,9 +22,11 @@ const Profile = () => {
       try {
         if (isAuth) {
           const data = await userDatas();
-          console.log(data);
+          //make data persistent on refresh
           dispatch(profileFirstName(data.body.firstName));
           dispatch(profileLastName(data.body.lastName));
+          dispatch(logingSuccess());
+          navigate("/profile");
         }
       } catch (error) {
         // Handle error case here
@@ -36,13 +39,7 @@ const Profile = () => {
     };
 
     fetchData();
-  }, [dispatch, isAuth]);
-
-  //Handle the case when the user is not authenticated
-  if (!isAuth) {
-    navigate("/login"); // Redirect to login page or show a message
-    return null;
-  }
+  }, [dispatch, isAuth, navigate]);
 
   return (
     <main className="main bg-dark">

@@ -2,18 +2,32 @@ import React, { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import argentBankLogo from "../img/argentBankLogo.png";
 import { useSelector, useDispatch } from "react-redux";
-import { logingOut } from "../features/LoginSlice";
-import { profileOut } from "../features/ProfileSlice";
+import { logingOut, logingSuccess } from "../features/LoginSlice";
+import { profileFirstName, profileOut } from "../features/ProfileSlice";
+import { isAuthSelector, firstNameSelector } from "../utils/selectors";
 
 const Header = () => {
-  const [isAuthenticated, setIsAuthenticated] = useState(false);
-  const { isAuth } = useSelector((state) => state.login);
-  const { firstName } = useSelector((state) => state.profile);
+  const isAuth = useSelector(isAuthSelector);
+  //console.log(isAuth);
+  const firstName = useSelector(firstNameSelector);
+  //console.log(firstName + "herrrrrree");
   const dispatch = useDispatch();
+  const [isAuthenticated, setIsAuthenticated] = useState(false);
 
   useEffect(() => {
-    setIsAuthenticated(isAuth);
-  }, [isAuth]);
+    // Check if the user is authenticated and firstName is available
+    if (isAuth && firstName) {
+      setIsAuthenticated(true);
+
+      // Make data persistent on refresh
+      dispatch(profileFirstName(firstName));
+
+      // Dispatch logingSuccess to handle cases when the page is refreshed and the user is already authenticated
+      dispatch(logingSuccess());
+    } else {
+      setIsAuthenticated(false);
+    }
+  }, [isAuth, firstName, dispatch]);
 
   const handleLogout = () => {
     localStorage.clear();

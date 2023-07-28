@@ -10,14 +10,23 @@ import {
   logingRemember,
 } from "../features/LoginSlice";
 
+import {
+  isLoadingSelector,
+  errorSelector,
+  isRememberSelector,
+  isAuthSelector,
+} from "../utils/selectors";
+// import { profileFirstName, profileLastName } from "../features/ProfileSlice";
+
 /**
  * Component - SingIn
  * @returns {React.ReactElement} JSX.Element - SingIn component
  */
 function SingIn() {
-  const { isLoading, error, isRemember, isAuth } = useSelector(
-    (state) => state.login
-  );
+  const isLoading = useSelector(isLoadingSelector);
+  const error = useSelector(errorSelector);
+  const isRemember = useSelector(isRememberSelector);
+  const isAuth = useSelector(isAuthSelector);
   const dispatch = useDispatch();
   const navigate = useNavigate();
   const [credientials, setCredientials] = useState({
@@ -26,14 +35,10 @@ function SingIn() {
   });
 
   useEffect(() => {
-    const token = localStorage.getItem("authToken");
-    if (token) {
-      dispatch(logingSuccess());
-      if (isAuth) {
-        navigate("/profile");
-      }
+    if (isAuth) {
+      navigate("/profile");
     }
-  }, [dispatch, isAuth, navigate]);
+  }, [isAuth, navigate, dispatch]);
 
   function handleChange({ currentTarget }) {
     const { value, name } = currentTarget;
@@ -49,7 +54,6 @@ function SingIn() {
     dispatch(logingPending());
     try {
       const isAuth = await userLogin(credientials);
-      console.log("isAuth:", isAuth);
 
       if (isAuth) {
         dispatch(logingSuccess());
