@@ -4,10 +4,10 @@ import { Button, Alert } from "react-bootstrap";
 import { login as userLogin } from "../services/userAuthApi";
 import { useSelector, useDispatch } from "react-redux";
 import {
-  logingPending,
-  logingSuccess,
-  logingError,
-  logingRemember,
+  loginPending,
+  loginSuccess,
+  loginError,
+  loginRemember,
 } from "../features/LoginSlice";
 
 import {
@@ -16,7 +16,6 @@ import {
   isRememberSelector,
   isAuthSelector,
 } from "../utils/selectors";
-// import { profileFirstName, profileLastName } from "../features/ProfileSlice";
 
 /**
  * Component - SingIn
@@ -50,13 +49,13 @@ function SingIn() {
 
   async function handleSubmit(e) {
     e.preventDefault();
-
-    dispatch(logingPending());
+    // login is on progresss
+    dispatch(loginPending());
     try {
       const isAuth = await userLogin(credientials);
 
       if (isAuth) {
-        dispatch(logingSuccess());
+        dispatch(loginSuccess());
         navigate("/profile");
       }
     } catch (error) {
@@ -65,11 +64,11 @@ function SingIn() {
         error.response.data &&
         error.response.data.message
       ) {
-        dispatch(logingError(error.response.data.message));
+        dispatch(loginError(error.response.data.message));
       } else {
         // If the error doesn't have a response or data property, handle it differently
         console.log("Unexpected error:", error);
-        dispatch(logingError("invalid or empty value with login or password"));
+        dispatch(loginError("invalid or empty value with login or password"));
       }
     }
   }
@@ -106,7 +105,7 @@ function SingIn() {
                 id="remember-me"
                 name="remember-me"
                 defaultChecked={isRemember}
-                onChange={() => dispatch(logingRemember(!isRemember))}
+                onChange={() => dispatch(loginRemember(!isRemember))}
               />
               <label htmlFor="remember-me">Remember me</label>
             </div>

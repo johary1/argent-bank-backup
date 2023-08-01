@@ -11,22 +11,22 @@ const LoginSlice = createSlice({
   name: "login",
   initialState,
   reducers: {
-    logingPending: (state) => {
+    loginPending: (state) => {
       state.isLoading = true;
     },
-    logingSuccess: (state) => {
+    loginSuccess: (state) => {
       state.isLoading = false;
       state.isAuth = true;
       state.error = "";
     },
-    logingError: (state, action) => {
+    loginError: (state, action) => {
       state.isLoading = false;
       state.error = action.payload;
     },
-    logingRemember: (state, action) => {
+    loginRemember: (state, action) => {
       state.isRemember = action.payload;
     },
-    logingOut: (state) => {
+    loginOut: (state) => {
       state.isAuth = false;
     },
     // New action to set the authentication status when the user logs in
@@ -44,13 +44,13 @@ const LoginSlice = createSlice({
 const { actions, reducer } = LoginSlice;
 
 export const {
-  logingPending,
-  logingSuccess,
-  logingError,
-  logingOut,
-  logingRemember,
-  setAuthStatus, // Export the new action
-  clearAuthStatus, // Export the new action
+  loginPending,
+  loginSuccess,
+  loginError,
+  loginOut,
+  loginRemember,
+  setAuthStatus,
+  clearAuthStatus,
 } = actions;
 
 export default reducer;

@@ -2,7 +2,7 @@ import React, { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import argentBankLogo from "../img/argentBankLogo.png";
 import { useSelector, useDispatch } from "react-redux";
-import { logingOut, logingSuccess } from "../features/LoginSlice";
+import { loginOut, loginSuccess } from "../features/LoginSlice";
 import { profileFirstName, profileOut } from "../features/ProfileSlice";
 import { isAuthSelector, firstNameSelector } from "../utils/selectors";
 
@@ -22,8 +22,8 @@ const Header = () => {
       // Make data persistent on refresh
       dispatch(profileFirstName(firstName));
 
-      // Dispatch logingSuccess to handle cases when the page is refreshed and the user is already authenticated
-      dispatch(logingSuccess());
+      // Dispatch loginSuccess to handle cases when the page is refreshed and the user is already authenticated
+      dispatch(loginSuccess());
     } else {
       setIsAuthenticated(false);
     }
@@ -31,8 +31,8 @@ const Header = () => {
 
   const handleLogout = () => {
     localStorage.clear();
-    // Dispatch the logingOut action to clear the authentication status in Redux
-    dispatch(logingOut());
+    // Dispatch the loginOut action to clear the authentication status in Redux
+    dispatch(loginOut());
 
     // Clear the accessToken cookie by setting its expiration date to one hour from now
     const expirationDate = new Date();

@@ -10,7 +10,7 @@ import {
 
 import UserForm from "../components/UserForm";
 import ProfileAccounts from "../components/ProfileAccounts";
-import { logingSuccess } from "../features/LoginSlice";
+import { loginSuccess } from "../features/LoginSlice";
 
 const Profile = () => {
   const dispatch = useDispatch();
@@ -25,7 +25,7 @@ const Profile = () => {
           //make data persistent on refresh
           dispatch(profileFirstName(data.body.firstName));
           dispatch(profileLastName(data.body.lastName));
-          dispatch(logingSuccess());
+          dispatch(loginSuccess());
           navigate("/profile");
         }
       } catch (error) {
