@@ -1,6 +1,6 @@
 import axios from "axios";
 import jwtDecode from "jwt-decode";
-
+//todo move in a config file
 const BASE_URL = "http://localhost:3001/api/v1/user";
 const URL_LOGIN = BASE_URL + "/login";
 const URL_PROFILE = BASE_URL + "/profile";
@@ -9,20 +9,13 @@ const URL_PROFILE = BASE_URL + "/profile";
 const setTokenInLocalStorage = (token) => {
   localStorage.setItem("authToken", token);
   const expirationTime = new Date();
-  expirationTime.setTime(expirationTime.getTime() + 3 * 60 * 60 * 1000); // 1 hour
+  expirationTime.setTime(expirationTime.getTime() + 3 * 60 * 60 * 1000); // 3 hours
   document.cookie = `authToken=${token};expires=${expirationTime.toUTCString()};path=/`;
 };
 
-// Function to get the token from local storage or cookies
+// Function to get the token from local storage
 export const getTokenFromStorage = () => {
-  return localStorage.getItem("authToken") || getCookie("authToken");
-};
-
-// Function to get the value of a cookie by name
-const getCookie = (name) => {
-  const value = `; ${document.cookie}`;
-  const parts = value.split(`; ${name}=`);
-  if (parts.length === 2) return parts.pop().split(";").shift();
+  return localStorage.getItem("authToken");
 };
 
 // Function to check if the user is authenticated
@@ -74,7 +67,7 @@ export const login = async (credentials) => {
   }
 };
 
-// Function to get user data profile
+// Function to get user data used in profile page
 export const userDatas = async () => {
   try {
     const res = await axiosInstance.post(URL_PROFILE);

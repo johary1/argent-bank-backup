@@ -43,7 +43,7 @@ const UserForm = () => {
     // Sanitize the input values before making the API request to prevent from XSS attack
     const sanitizedFirstName = DOMPurify.sanitize(userFirstName);
     const sanitizedLastName = DOMPurify.sanitize(userLastName);
-    console.log(sanitizedFirstName.length);
+    //console.log(sanitizedFirstName.length);
 
     if (!sanitizedFirstName || !sanitizedLastName) {
       // Prevent submitting empty values to the API

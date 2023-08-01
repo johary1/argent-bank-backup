@@ -2,7 +2,7 @@ import { NavLink } from "react-router-dom";
 
 /**
  * ERROR PAGE
- * @returns {React.ReactElement} JSX.Element error page
+ *
  */
 const Error = () => {
   return (

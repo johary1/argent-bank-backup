@@ -1,47 +1,24 @@
-import React, { useEffect, useState } from "react";
+import React from "react";
 import { Link } from "react-router-dom";
 import argentBankLogo from "../img/argentBankLogo.png";
 import { useSelector, useDispatch } from "react-redux";
-import { loginOut, loginSuccess } from "../features/LoginSlice";
-import { profileFirstName, profileOut } from "../features/ProfileSlice";
+import { loginOut } from "../features/LoginSlice";
+import { profileOut } from "../features/ProfileSlice";
 import { isAuthSelector, firstNameSelector } from "../utils/selectors";
 
 const Header = () => {
   const isAuth = useSelector(isAuthSelector);
-  //console.log(isAuth);
   const firstName = useSelector(firstNameSelector);
   //console.log(firstName + "herrrrrree");
   const dispatch = useDispatch();
-  const [isAuthenticated, setIsAuthenticated] = useState(false);
-
-  useEffect(() => {
-    // Check if the user is authenticated and firstName is available
-    if (isAuth && firstName) {
-      setIsAuthenticated(true);
-
-      // Make data persistent on refresh
-      dispatch(profileFirstName(firstName));
-
-      // Dispatch loginSuccess to handle cases when the page is refreshed and the user is already authenticated
-      dispatch(loginSuccess());
-    } else {
-      setIsAuthenticated(false);
-    }
-  }, [isAuth, firstName, dispatch]);
 
   const handleLogout = () => {
-    localStorage.clear();
-    // Dispatch the loginOut action to clear the authentication status in Redux
+    // Remove the authToken from local storage on logout
+    localStorage.removeItem("authToken");
+    // Dispatch the logingOut action to clear the authentication status in Redux
     dispatch(loginOut());
-
-    // Clear the accessToken cookie by setting its expiration date to one hour from now
-    const expirationDate = new Date();
-    expirationDate.setTime(expirationDate.getTime() + 60 * 60 * 1000); // 1 hour
-    document.cookie = `authToken=; expires=${expirationDate.toUTCString()}; path=/;`;
-
     // Dispatch the profileOut action to clear the profile data in Redux
     dispatch(profileOut());
-    setIsAuthenticated(false);
   };
 
   return (
@@ -56,7 +33,7 @@ const Header = () => {
           <h1 className="sr-only">Argent Bank</h1>
         </Link>
         <div className="auth-link">
-          {isAuthenticated ? (
+          {isAuth ? (
             <>
               <Link to="/profile" className="main-nav-link">
                 <i className="fa fa-user-circle"></i>

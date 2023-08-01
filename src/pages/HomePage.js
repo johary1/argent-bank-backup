@@ -4,7 +4,7 @@ import iconSecurity from "../img/icon-security.png";
 
 /**
  *
- * @returns {React.ReactElement} JSX.Element - the user main page
+ * homepage
  */
 const HomePage = () => {
   return (
