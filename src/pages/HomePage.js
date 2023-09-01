@@ -1,3 +1,5 @@
+import { useState } from "react";
+// import ModalComponent from "success-custom-modal/src/index";
 import iconChat from "../img/icon-chat.png";
 import iconMoney from "../img/icon-money.png";
 import iconSecurity from "../img/icon-security.png";
@@ -7,6 +9,15 @@ import iconSecurity from "../img/icon-security.png";
  * homepage
  */
 const HomePage = () => {
+  const [showModal, setShowModal] = useState(false);
+
+  const handleShowModal = () => {
+    setShowModal(true);
+  };
+
+  const handleCloseModal = () => {
+    setShowModal(false);
+  };
   return (
     <main>
       <div className="hero">
@@ -28,6 +39,7 @@ const HomePage = () => {
             24/7 chat or through a phone call in less than 5 minutes.
           </p>
         </div>
+
         <div className="feature-item">
           <img src={iconMoney} alt="Chat Icon" className="feature-icon" />
           <h3 className="feature-item-title">
@@ -44,6 +56,10 @@ const HomePage = () => {
             We use top of the line encryption to make sure your data and money
             is always safe.
           </p>
+        </div>
+        <div>
+          <button onClick={handleShowModal}>Show Modal</button>
+          {/* <ModalComponent show={showModal} handleClose={handleCloseModal} /> */}
         </div>
       </section>
     </main>
